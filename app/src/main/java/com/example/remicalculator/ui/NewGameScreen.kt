@@ -13,12 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.remicalculator.RemiCalcApp
-import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
-fun HomeScreen (navController: NavController) {
-    Column(
+fun NewGameScreen(
+    navController: NavController
+) {
+    Column (
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
@@ -26,26 +26,17 @@ fun HomeScreen (navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "Hello world!"
+            text = "create new game"
         )
 
         Spacer(
             modifier = Modifier.height(32.dp)
         )
 
-        Button(onClick = {}) {
-            Text(text = "Dont click!")
-        }
-
-        Spacer(
-            modifier = Modifier.height(20.dp)
-        )
-
-        Button(onClick = {navController.navigate(RemiCalculatorScreen.NewGame.name)}) {
+        Button(onClick = {navController.navigateUp()}) {
             Text(
-                text = "Start a new game!"
+                text = "return to Main Menu"
             )
         }
-
     }
 }
