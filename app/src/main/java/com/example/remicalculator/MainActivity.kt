@@ -18,17 +18,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            RemiCalculatorTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android12",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            RemiCalculatorTheme() {
+                RemiCalcApp()
             }
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
@@ -45,3 +41,4 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
+
