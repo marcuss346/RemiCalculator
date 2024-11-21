@@ -48,5 +48,15 @@ fun HomeScreen (navController: NavController) {
             )
         }
 
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        Button(onClick = {navController.navigate(RemiCalculatorScreen.GameRules.name)}) {
+            Text(
+                text = "Pravila igre"
+            )
+        }
+
     }
 }
