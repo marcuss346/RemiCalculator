@@ -7,10 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.remicalculator.ui.HomeScreen
 import com.example.remicalculator.ui.NewGameScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
-enum class RemiCalculatorScreen() {
+enum class RemiCalculatorScreen {
     Home,
     NewGame
 }

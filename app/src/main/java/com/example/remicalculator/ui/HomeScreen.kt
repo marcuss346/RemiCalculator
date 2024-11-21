@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.remicalculator.RemiCalcApp
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
@@ -28,6 +27,8 @@ fun HomeScreen (navController: NavController) {
         Text(
             text = "Hello world!"
         )
+
+
 
         Spacer(
             modifier = Modifier.height(32.dp)
