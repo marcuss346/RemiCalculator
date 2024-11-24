@@ -32,7 +32,7 @@ fun NewGameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "create new game"
+            text = "Ustvari novo igro"
         )
 
         Spacer(
@@ -53,7 +53,7 @@ fun NewGameScreen(
 
         Button(onClick = {navController.navigateUp()}) {
             Text(
-                text = "return to Main Menu"
+                text = "Nazaj"
             )
         }
     }
