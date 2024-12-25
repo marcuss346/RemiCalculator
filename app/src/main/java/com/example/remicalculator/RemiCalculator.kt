@@ -6,12 +6,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.remicalculator.ui.HomeScreen
+import com.example.remicalculator.ui.SavedGamesScreen
 import com.example.remicalculator.ui.NewGameScreen
 import com.example.remicalculator.ui.GameRulesScreen
 import androidx.navigation.NavHostController
 
 enum class RemiCalculatorScreen {
     Home,
+    SavedGames,
     NewGame,
     GameRules
 }
@@ -24,7 +26,10 @@ fun RemiCalcApp(navController: NavHostController = rememberNavController()) {
         startDestination = RemiCalculatorScreen.Home.name
     ) {
         composable(route = RemiCalculatorScreen.Home.name) {
-            HomeScreen(navController = navController)
+            SavedGamesScreen(navController = navController)
+        }
+        composable(route = RemiCalculatorScreen.SavedGames.name) {
+            SavedGamesScreen(navController = navController)
         }
         composable(route = RemiCalculatorScreen.NewGame.name) {
             NewGameScreen(navController = navController)
