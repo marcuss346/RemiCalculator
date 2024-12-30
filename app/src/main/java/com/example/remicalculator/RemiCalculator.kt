@@ -26,7 +26,7 @@ fun RemiCalcApp(navController: NavHostController = rememberNavController()) {
         startDestination = RemiCalculatorScreen.Home.name
     ) {
         composable(route = RemiCalculatorScreen.Home.name) {
-            SavedGamesScreen(navController = navController)
+            HomeScreen(navController = navController)
         }
         composable(route = RemiCalculatorScreen.SavedGames.name) {
             SavedGamesScreen(navController = navController)
