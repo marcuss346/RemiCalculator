@@ -23,11 +23,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
-fun NewGameScreen(
+fun AddPlayersScreen(
     navController: NavController
 ) {
-    var game by remember { mutableStateOf("igra") }
-    var players by remember { mutableStateOf("0") }
+    // ime igre = game (od prej)
+    // število igralcev od prej
+
+    var player1 by remember { mutableStateOf("") }
+    var player2 by remember { mutableStateOf("") }
+    var player3 by remember { mutableStateOf("") }
 
     Column (
         modifier = Modifier
@@ -37,7 +41,7 @@ fun NewGameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "Ustvari novo igro"
+            text = "Dodaj igralce"
         )
 
         Spacer(
@@ -45,9 +49,9 @@ fun NewGameScreen(
         )
 
         OutlinedTextField(
-            value = game,
-            onValueChange = { game = it },
-            label = { Text(text = "Vnesi ime igre") },
+            value = player1,
+            onValueChange = { player1 = it },
+            label = { Text(text = "Vnesi ime igralca") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
         )
@@ -57,18 +61,30 @@ fun NewGameScreen(
         )
 
         OutlinedTextField(
-            value = players,
-            onValueChange = { players = it },
-            label = { Text(text = "Vnesi število igralcev") },
+            value = player2,
+            onValueChange = { player2 = it },
+            label = { Text(text = "Vnesi ime igralca") },
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
+        )
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        OutlinedTextField(
+            value = player3,
+            onValueChange = { player3 = it },
+            label = { Text(text = "Vnesi ime igralca") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
         )
 
         Spacer(
             modifier = Modifier.height(32.dp)
         )
 
-        Button(onClick = {navController.navigate(RemiCalculatorScreen.AddPlayers.name)}) { // gre na screen ustvarjene igre
+        Button(onClick = {navController.navigate(RemiCalculatorScreen.PlayGame.name)}) { // gre na screen ustvarjene igre
             Text(
                 text = "Potrdi"
             )
