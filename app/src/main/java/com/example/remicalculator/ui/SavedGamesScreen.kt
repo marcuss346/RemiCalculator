@@ -73,7 +73,7 @@ fun SavedGamesScreen(
             modifier = Modifier.height(32.dp)
         )
 
-        Button(onClick = {navController.navigateUp()}) {
+        Button(onClick = {navController.navigate(RemiCalculatorScreen.Home.name)}) {
             Text(
                 text = "Nazaj"
             )
