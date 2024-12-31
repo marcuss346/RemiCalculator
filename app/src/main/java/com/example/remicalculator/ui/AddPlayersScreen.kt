@@ -12,13 +12,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -28,11 +23,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
-fun NewGameScreen(
+fun AddPlayersScreen(
     navController: NavController
 ) {
-    var players by remember { mutableStateOf("") }
-    var isValid by remember { mutableStateOf(false) }
+    // ime igre = game (od prej)
+    // število igralcev od prej
+
+    var player1 by remember { mutableStateOf("") }
+    var player2 by remember { mutableStateOf("") }
+    var player3 by remember { mutableStateOf("") }
 
     Column (
         modifier = Modifier
@@ -42,7 +41,7 @@ fun NewGameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "Ustvari novo igro"
+            text = "Dodaj igralce"
         )
 
         Spacer(
@@ -50,9 +49,9 @@ fun NewGameScreen(
         )
 
         OutlinedTextField(
-            value = game,
-            onValueChange = { game = it },
-            label = { Text(text = "Vnesi ime igre") },
+            value = player1,
+            onValueChange = { player1 = it },
+            label = { Text(text = "Vnesi ime igralca") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
         )
@@ -62,23 +61,30 @@ fun NewGameScreen(
         )
 
         OutlinedTextField(
-            value = players,
-            onValueChange = { players = it
-                            isValid = isValidText(players)},
-            label = { Text("Number of players") },
+            value = player2,
+            onValueChange = { player2 = it },
+            label = { Text(text = "Vnesi ime igralca") },
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
         )
 
-        if(!isValid){
-            Text("Feild can only contain numbers", color = Color.Red)
-        }
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        OutlinedTextField(
+            value = player3,
+            onValueChange = { player3 = it },
+            label = { Text(text = "Vnesi ime igralca") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
+        )
 
         Spacer(
             modifier = Modifier.height(32.dp)
         )
 
-        Button(onClick = {navController.navigate(RemiCalculatorScreen.AddPlayers.name)}) { // gre na screen ustvarjene igre
+        Button(onClick = {navController.navigate(RemiCalculatorScreen.PlayGame.name)}) { // gre na screen ustvarjene igre
             Text(
                 text = "Potrdi"
             )
@@ -95,8 +101,3 @@ fun NewGameScreen(
         }
     }
 }
-
-fun isValidText(text : String): Boolean {
-    return text.matches(Regex("[0-9]+"));
-}
-

@@ -25,17 +25,15 @@ fun HomeScreen (navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "Hello world!"
+            text = "Dobrodošli!"
         )
-
-
 
         Spacer(
             modifier = Modifier.height(32.dp)
         )
 
-        Button(onClick = {}) {
-            Text(text = "Dont click!")
+        Button(onClick = {navController.navigate(RemiCalculatorScreen.SavedGames.name)}) {
+            Text(text = "Shranjene igre")
         }
 
         Spacer(
@@ -44,7 +42,7 @@ fun HomeScreen (navController: NavController) {
 
         Button(onClick = {navController.navigate(RemiCalculatorScreen.NewGame.name)}) {
             Text(
-                text = "Start a new game!"
+                text = "Nova igra"
             )
         }
 
@@ -54,7 +52,7 @@ fun HomeScreen (navController: NavController) {
 
         Button(onClick = {navController.navigate(RemiCalculatorScreen.GameRules.name)}) {
             Text(
-                text = "Pravila igre"
+                text = "Pravila"
             )
         }
 
