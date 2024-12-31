@@ -31,6 +31,7 @@ import com.example.remicalculator.RemiCalculatorScreen
 fun NewGameScreen(
     navController: NavController
 ) {
+    var game by remember { mutableStateOf("") }
     var players by remember { mutableStateOf("") }
     var isValid by remember { mutableStateOf(false) }
 
@@ -65,13 +66,13 @@ fun NewGameScreen(
             value = players,
             onValueChange = { players = it
                             isValid = isValidText(players)},
-            label = { Text("Number of players") },
+            label = { Text("Število igralcev") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
         )
 
         if(!isValid){
-            Text("Feild can only contain numbers", color = Color.Red)
+            Text("Polje lahko vsebuje samo številke", color = Color.Red)
         }
 
         Spacer(

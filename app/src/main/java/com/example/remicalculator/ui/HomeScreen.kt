@@ -52,7 +52,7 @@ fun HomeScreen (navController: NavController) {
 
         Button(onClick = {navController.navigate(RemiCalculatorScreen.GameRules.name)}) {
             Text(
-                text = "Pravila"
+                text = "Pravila igre"
             )
         }
 
