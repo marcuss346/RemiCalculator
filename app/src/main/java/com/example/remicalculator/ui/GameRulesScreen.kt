@@ -14,18 +14,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun GameRulesScreen(
+    viewModel: RemiCalculatorViewModel = viewModel(),
     navController: NavController
 ) {
     val scrollState = rememberScrollState()
+    val uiState = viewModel.uiState.collectAsState().value
 
     Column (
         modifier = Modifier
@@ -44,27 +49,14 @@ fun GameRulesScreen(
         )
 
         Text(
-            text = "Obstaja tolkšno število pravil igre s kartami remi, " +
-                    "kot je igralcev, povečini pa je končni cilj igre remi " +
-                    "ponavadi isti - čimprej se znebiti vseh kart in " +
-                    "tako zmagati. Slovenski igralci remija uporabljajo " +
-                    "en komplet igralnih kart z 52 kartami plus nemalokrat " +
-                    "še tri jokerje. Dva kompleta igralnih kart se uporabljata, " +
-                    "če je število igralcev remija večje. Igralci običajno " +
-                    "prejmejo po 14 kart, tisti, ki igro remi začne, prejme 15 " +
-                    "igralnih kart. Pravila se lahko razlikujejo, v tujini je " +
-                    "praksa manjšega števila razdeljenih igralnih kart (10) " +
-                    "pogostejša. Ker pa je na internetu bolj razširjena " +
-                    "verzija igre remi po zahodnem sistemu, bomo tudi tu " +
-                    "govorili predvsem o tem načinu remija. Koncept igranja " +
-                    "remija je tako ali tako isti."
+            text = uiState.rulesSlovenian
         )
 
         Spacer(
             modifier = Modifier.height(32.dp)
         )
 
-        Text(
+        /*Text(
             text = "Torej k pravilom igre remi: vsak igralec ob štartu igre dobi določeno število " +
                     "igralnih kart. Končni namen igre je čim prej odvreči vse svoje karte začenši z odprtjem " +
                     "in/ali z dodajanjem kart po igralni mizi ali drugim igralcem ali na skupen kupček za odlaganje " +
@@ -77,7 +69,7 @@ fun GameRulesScreen(
                     "bodisi vreden eno točko, bodisi 10 ali 11 točk, odvisno od posamezne igralne igre. Kjer se iga z " +
                     "jokerji, so le-ti vredni po 25 točk. Sleherni igralec lahko igralne karte bodisi dodaja v že " +
                     "odprte karte drugih igralcev remija šele, ko je tudi sam odprt, prej ne. "
-        )
+        )*/
 
         Spacer(
             modifier = Modifier.height(32.dp)
@@ -86,6 +78,18 @@ fun GameRulesScreen(
         Button(onClick = {navController.navigateUp()}) {
             Text(
                 text = "Nazaj"
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(10.dp)
+        )
+
+        Button(onClick = {
+            viewModel.updateTextLanguage()
+        }) {
+            Text(
+                text = "Prevedi"
             )
         }
     }
