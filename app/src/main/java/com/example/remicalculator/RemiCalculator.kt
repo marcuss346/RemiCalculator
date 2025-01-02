@@ -12,6 +12,8 @@ import com.example.remicalculator.ui.NewGameScreen
 import com.example.remicalculator.ui.AddPlayersScreen
 import com.example.remicalculator.ui.GameRulesScreen
 import androidx.navigation.NavHostController
+import com.example.remicalculator.ui.RemiCalculatorViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 enum class RemiCalculatorScreen {
     Home,
@@ -23,7 +25,9 @@ enum class RemiCalculatorScreen {
 }
 
 @Composable
-fun RemiCalcApp(navController: NavHostController = rememberNavController()) {
+fun RemiCalcApp(
+    viewModel: RemiCalculatorViewModel = viewModel(),
+    navController: NavHostController = rememberNavController()) {
 
     NavHost(
         navController = navController,
@@ -45,7 +49,7 @@ fun RemiCalcApp(navController: NavHostController = rememberNavController()) {
             AddPlayersScreen(navController = navController)
         }
         composable(route = RemiCalculatorScreen.GameRules.name) {
-            GameRulesScreen(navController = navController)
+            GameRulesScreen(viewModel = viewModel, navController = navController)
         }
     }
 }
