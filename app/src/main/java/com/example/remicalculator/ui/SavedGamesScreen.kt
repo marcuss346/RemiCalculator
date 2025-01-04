@@ -24,11 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.remicalculator.RemiCalculatorScreen
 import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun SavedGamesScreen(
     navController: NavController,
-    viewModel: RemiCalculatorViewModel
+    viewModel: RemiCalculatorViewModel = hiltViewModel()
 ) {
     val savedGames = viewModel.getAllGames().collectAsState(initial = emptyList())
 
@@ -44,6 +45,26 @@ fun SavedGamesScreen(
         Text(
             text = "Seznam iger"
         )
+
+        Spacer(
+            modifier = Modifier.height(32.dp)
+        )
+
+        Button(onClick = {viewModel.deleteAllGames()}) {
+            Text(
+                text = "Izbriši vse igre"
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(32.dp)
+        )
+
+        Button(onClick = {navController.navigate(RemiCalculatorScreen.Home.name)}) {
+            Text(
+                text = "Nazaj"
+            )
+        }
 
         Spacer(
             modifier = Modifier.height(32.dp)
@@ -66,17 +87,6 @@ fun SavedGamesScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
-        }
-
-
-        Spacer(
-            modifier = Modifier.height(32.dp)
-        )
-
-        Button(onClick = {navController.navigate(RemiCalculatorScreen.Home.name)}) {
-            Text(
-                text = "Nazaj"
-            )
         }
     }
 }

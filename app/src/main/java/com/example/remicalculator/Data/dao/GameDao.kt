@@ -16,10 +16,10 @@ interface GameDao {
 
     // delete all
     @Query("DELETE FROM games")
-    suspend fun clearAllGames()
+    suspend fun deleteAllGames()
 
     // get game by id
-    @Query("SELECT * FROM games WHERE id = :gameId")
+    @Query("SELECT * FROM games WHERE id = :gameId LIMIT 1")
     fun getGameById(gameId: Long): Flow<Game?>
 
     // new game
@@ -28,4 +28,7 @@ interface GameDao {
 
     @Update
     suspend fun updateGame(game: Game)
+
+    /*@Insert
+    abstract fun insert(game: Game): Long*/
 }

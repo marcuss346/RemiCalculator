@@ -1,4 +1,32 @@
 package com.example.remicalculator.Data;
 
-public interface GameRepository {
+import com.example.remicalculator.Data.dao.GameDao
+import com.example.remicalculator.Data.entities.Game
+import kotlinx.coroutines.flow.Flow
+
+class GameRepository(private val gameDao: GameDao) {
+
+    // Insert a new game and return its ID
+    suspend fun insertGame(game: Game): Long {
+        return gameDao.insertGame(game)
+    }
+
+    // Update an existing game
+    suspend fun updateGame(game: Game) {
+        gameDao.updateGame(game)
+    }
+
+    // Get a game by its ID
+    fun getGameById(gameId: Long): Flow<Game?> {
+        return gameDao.getGameById(gameId)
+    }
+
+    // (Optional) Get all games if needed in your app
+    fun getAllGames(): Flow<List<Game>> {
+        return gameDao.getAllGames()
+    }
+
+    suspend fun deleteAllGames() {
+        gameDao.deleteAllGames()
+    }
 }

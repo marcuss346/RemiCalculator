@@ -1,5 +1,6 @@
 package com.example.remicalculator.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,13 +26,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.remicalculator.Data.entities.Game
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
 fun NewGameScreen(
     navController: NavController,
-    viewModel: RemiCalculatorViewModel
+    viewModel: RemiCalculatorViewModel = hiltViewModel()
 
 ) {
     var game by remember { mutableStateOf("") }
@@ -87,7 +89,9 @@ fun NewGameScreen(
         Button(
             onClick = {
                 if (isValid) {
+                    Log.d("NewGameScreen", "Button clicked") // izpis
                     viewModel.addGame(game, players.toInt()) { gameId ->
+                        Log.d("NewGameScreen", "gameId returned: $gameId")
                         navController.navigate("${RemiCalculatorScreen.AddPlayers.name}/$gameId")
                     }
                 }

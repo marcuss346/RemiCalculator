@@ -2,6 +2,7 @@ package com.example.remicalculator.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.remicalculator.Data.GameRepository
 import com.example.remicalculator.Data.database.AppDatabase
 import com.example.remicalculator.Data.dao.GameDao
 import dagger.Module
@@ -28,5 +29,11 @@ object AppModule {
     @Singleton
     fun provideGameDao(database: AppDatabase): GameDao {
         return database.gameDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGameRepository(gameDao: GameDao): GameRepository {
+        return GameRepository(gameDao)
     }
 }

@@ -20,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
 fun AddPlayersScreen(
     navController: NavController,
-    viewModel: RemiCalculatorViewModel
+    viewModel1: Long,
+    viewModel: RemiCalculatorViewModel = hiltViewModel()
 
 ) {
     // ime igre = game (od prej)
@@ -47,6 +49,7 @@ fun AddPlayersScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Loading...")
+            Text("Game ID is null")
         }
         return
     }

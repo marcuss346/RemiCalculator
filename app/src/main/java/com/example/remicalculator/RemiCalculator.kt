@@ -13,7 +13,6 @@ import com.example.remicalculator.ui.AddPlayersScreen
 import com.example.remicalculator.ui.GameRulesScreen
 import androidx.navigation.NavHostController
 import com.example.remicalculator.ui.RemiCalculatorViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 enum class RemiCalculatorScreen {
     Home,
@@ -51,9 +50,15 @@ fun RemiCalcApp(
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             NewGameScreen(navController = navController, viewModel = viewModel)
         }
-        composable(route = RemiCalculatorScreen.AddPlayers.name) {
+        /*composable(route = RemiCalculatorScreen.AddPlayers.name) {
+            Log.d("NewGameScreen", "Navigating to AddPlayers with gameId: $gameId") // izpis
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             AddPlayersScreen(navController = navController, viewModel = viewModel)
+        }*/
+        composable("${RemiCalculatorScreen.AddPlayers.name}/{gameId}") { backStackEntry ->
+            val gameId = backStackEntry.arguments?.getString("gameId")?.toLong() ?: 0L
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            AddPlayersScreen(navController, gameId, viewModel)
         }
         composable(route = RemiCalculatorScreen.GameRules.name) {
             val viewModel: RemiCalculatorViewModel = hiltViewModel()

@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.remicalculator.ui.RemiCalculatorViewModel
 import com.example.remicalculator.ui.theme.RemiCalculatorTheme
 import dagger.hilt.android.AndroidEntryPoint
 
