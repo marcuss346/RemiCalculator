@@ -1,5 +1,6 @@
 package com.example.remicalculator.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,38 +27,32 @@ import com.example.remicalculator.RemiCalculatorScreen
 @Composable
 fun AddPlayersScreen(
     navController: NavController,
-    viewModel1: Long,
+    gameId: Long,
     viewModel: RemiCalculatorViewModel = hiltViewModel()
 
 ) {
     // ime igre = game (od prej)
-    val gameId = navController.previousBackStackEntry?.arguments?.getLong("gameId") ?: return
+    //val gameId = navController.previousBackStackEntry?.arguments?.getLong("gameId") ?: return
 
     val game by viewModel.getGameById(gameId).collectAsState(initial = null)
 
-    // število igralcev od prej
-    val numberOfPlayers = game?.numberOfPlayers ?: 0
-    var playerNames = rememberSaveable { mutableStateListOf(*Array(numberOfPlayers) { "" }) }
-
+    Log.d("AddPlayersScreen", "Game ID: $gameId")
+    Log.d("AddPlayersScreen", "Fetched game: $game")
 
     if (game == null) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Loading...")
-            Text("Game ID is null")
         }
         return
     }
 
-    if (numberOfPlayers == 0) {
-        Text("No players available.")
-        return
-    }
+    // število igralcev od prej
+    val numberOfPlayers = game!!.numberOfPlayers
+    val playerNames = remember { mutableStateListOf(*Array(numberOfPlayers) { "" }) }
 
     Column(
         modifier = Modifier
@@ -72,27 +67,18 @@ fun AddPlayersScreen(
 
         for (i in 0 until numberOfPlayers) {
             OutlinedTextField(
-                value = playerNames.getOrElse(0) { "" },
+                value = playerNames.getOrElse(i) { "" },
                 onValueChange = { newName ->
                     if (i < playerNames.size) {
                         playerNames[i] = newName
                     }
                 },
-                label = { Text("Vnesi ime igralca 1") },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
-            )
-            /*OutlinedTextField(
-                value = playerNames[i],
-                onValueChange = { newName: String ->
-                    playerNames[i] = newName
-                },
                 label = { Text("Vnesi ime igralca ${i + 1}") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
-            )*/
+            )
 
-            //Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         Spacer(

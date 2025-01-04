@@ -12,6 +12,8 @@ import com.example.remicalculator.ui.NewGameScreen
 import com.example.remicalculator.ui.AddPlayersScreen
 import com.example.remicalculator.ui.GameRulesScreen
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.example.remicalculator.ui.RemiCalculatorViewModel
 
 enum class RemiCalculatorScreen {
@@ -55,10 +57,17 @@ fun RemiCalcApp(
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             AddPlayersScreen(navController = navController, viewModel = viewModel)
         }*/
-        composable("${RemiCalculatorScreen.AddPlayers.name}/{gameId}") { backStackEntry ->
+        /*composable("${RemiCalculatorScreen.AddPlayers.name}/{gameId}") { backStackEntry ->
             val gameId = backStackEntry.arguments?.getString("gameId")?.toLong() ?: 0L
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             AddPlayersScreen(navController, gameId, viewModel)
+        }*/
+        composable(
+            route = "${RemiCalculatorScreen.AddPlayers.name}/{gameId}",
+            arguments = listOf(navArgument("gameId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val gameId = backStackEntry.arguments?.getLong("gameId") ?: 0L
+            AddPlayersScreen(navController, gameId)
         }
         composable(route = RemiCalculatorScreen.GameRules.name) {
             val viewModel: RemiCalculatorViewModel = hiltViewModel()

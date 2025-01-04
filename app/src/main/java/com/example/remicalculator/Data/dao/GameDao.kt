@@ -1,6 +1,7 @@
 package com.example.remicalculator.Data.dao
 
 import androidx.room.*
+import com.example.remicalculator.Data.GameRepository
 import com.example.remicalculator.Data.entities.Game
 import kotlinx.coroutines.flow.Flow
 
@@ -23,7 +24,7 @@ interface GameDao {
     fun getGameById(gameId: Long): Flow<Game?>
 
     // new game
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert//(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGame(game: Game): Long
 
     @Update

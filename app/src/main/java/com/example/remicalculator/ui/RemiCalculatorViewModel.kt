@@ -81,7 +81,6 @@ class RemiCalculatorViewModel @Inject constructor (private val gameRepository : 
         }
     }*/
     fun addGame(name: String, numberOfPlayers: Int, onGameAdded: (Long) -> Unit) {
-        Log.d("ViewModel", "addGame called with $name, $numberOfPlayers") // izpis
         viewModelScope.launch{
             val newGame = Game(
                 name = name,
@@ -90,7 +89,10 @@ class RemiCalculatorViewModel @Inject constructor (private val gameRepository : 
                 players = List(numberOfPlayers) { "" },
                 scores = List(numberOfPlayers) { 0 }
             )
-            gameRepository.insertGame(newGame)
+            Log.d("ViewModel", "Attempting to add game: $name")
+            val gameId = gameRepository.insertGame(newGame)
+            Log.d("ViewModel", "Game added with ID: $gameId")
+            onGameAdded(gameId)
         }
     }
 
