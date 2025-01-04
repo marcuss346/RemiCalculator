@@ -25,11 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import com.example.remicalculator.Data.entities.Game
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
 fun NewGameScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: RemiCalculatorViewModel
+
 ) {
     var game by remember { mutableStateOf("") }
     var players by remember { mutableStateOf("") }
@@ -64,8 +67,10 @@ fun NewGameScreen(
 
         OutlinedTextField(
             value = players,
-            onValueChange = { players = it
-                            isValid = isValidText(players)},
+            onValueChange = {
+                players = it
+                isValid = isValidText(players)
+            },
             label = { Text("Število igralcev") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
@@ -79,10 +84,21 @@ fun NewGameScreen(
             modifier = Modifier.height(32.dp)
         )
 
-        Button(onClick = {navController.navigate(RemiCalculatorScreen.AddPlayers.name)}) { // gre na screen ustvarjene igre
-            Text(
-                text = "Potrdi"
-            )
+        Button(
+            onClick = {
+                if (isValid) {
+                    viewModel.addGame(game, players.toInt()) { gameId ->
+                        navController.navigate("${RemiCalculatorScreen.AddPlayers.name}/$gameId")
+                    }
+                }
+                /*if (isValid) {
+                    //val game = Game(id = 0, name = game, numberOfPlayers = players, players = List(players) { "" })
+                    viewModel.addGame(game, players.toInt())
+                    navController.navigate(RemiCalculatorScreen.AddPlayers.name)
+                }*/
+            }
+        ) {
+            Text(text = "Potrdi")
         }
 
         Spacer(

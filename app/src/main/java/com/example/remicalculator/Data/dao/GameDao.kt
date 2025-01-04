@@ -6,19 +6,26 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameDao {
-    // Insert a new game
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGame(game: Game)
-
-    // Retrieve all games, sorted by date
+    // get all games
     @Query("SELECT * FROM games ORDER BY date DESC")
     fun getAllGames(): Flow<List<Game>>
 
-    // Delete a game by ID
+    // delete by id
     @Query("DELETE FROM games WHERE id = :gameId")
-    suspend fun deleteGameById(gameId: Int)
+    suspend fun deleteGameById(gameId: Long)
 
-    // Clear all games
+    // delete all
     @Query("DELETE FROM games")
     suspend fun clearAllGames()
+
+    // get game by id
+    @Query("SELECT * FROM games WHERE id = :gameId")
+    fun getGameById(gameId: Long): Flow<Game?>
+
+    // new game
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertGame(game: Game): Long
+
+    @Update
+    suspend fun updateGame(game: Game)
 }

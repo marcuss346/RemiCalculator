@@ -5,14 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.remicalculator.ui.theme.RemiCalculatorTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val gameId = 0L// nek game id
+
         setContent {
             RemiCalculatorTheme {
-                RemiCalcApp()
+                RemiCalcApp(gameId = gameId)
             }
         }
     }

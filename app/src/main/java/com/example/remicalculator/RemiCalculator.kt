@@ -1,7 +1,7 @@
 package com.example.remicalculator
 
-
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,8 +26,10 @@ enum class RemiCalculatorScreen {
 
 @Composable
 fun RemiCalcApp(
-    viewModel: RemiCalculatorViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()) {
+    //viewModel: RemiCalculatorViewModel = viewModel(),
+    navController: NavHostController = rememberNavController(),
+    gameId: Long
+) {
 
     NavHost(
         navController = navController,
@@ -37,18 +39,24 @@ fun RemiCalcApp(
             HomeScreen(navController = navController)
         }
         composable(route = RemiCalculatorScreen.SavedGames.name) {
-            SavedGamesScreen(navController = navController)
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            SavedGamesScreen(navController = navController, viewModel = viewModel)
         }
-        composable(route = RemiCalculatorScreen.PlayGame.name) {
-            PlayGameScreen(navController = navController)
+        composable(route = "${RemiCalculatorScreen.PlayGame.name}/{gameId}") { backStackEntry ->
+            val gameId = backStackEntry.arguments?.getLong("gameId") ?: return@composable
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            PlayGameScreen(navController = navController, gameId = gameId, viewModel = viewModel)
         }
         composable(route = RemiCalculatorScreen.NewGame.name) {
-            NewGameScreen(navController = navController)
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            NewGameScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = RemiCalculatorScreen.AddPlayers.name) {
-            AddPlayersScreen(navController = navController)
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            AddPlayersScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = RemiCalculatorScreen.GameRules.name) {
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
             GameRulesScreen(viewModel = viewModel, navController = navController)
         }
     }

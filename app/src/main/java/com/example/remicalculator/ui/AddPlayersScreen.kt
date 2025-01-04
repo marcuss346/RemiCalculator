@@ -24,70 +24,86 @@ import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
 fun AddPlayersScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: RemiCalculatorViewModel
+
 ) {
     // ime igre = game (od prej)
+    val gameId = navController.previousBackStackEntry?.arguments?.getLong("gameId") ?: return
+
+    val game by viewModel.getGameById(gameId).collectAsState(initial = null)
+
     // število igralcev od prej
+    val numberOfPlayers = game?.numberOfPlayers ?: 0
+    var playerNames = rememberSaveable { mutableStateListOf(*Array(numberOfPlayers) { "" }) }
 
-    var player1 by remember { mutableStateOf("") }
-    var player2 by remember { mutableStateOf("") }
-    var player3 by remember { mutableStateOf("") }
 
-    Column (
+    if (game == null) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Loading...")
+        }
+        return
+    }
+
+    if (numberOfPlayers == 0) {
+        Text("No players available.")
+        return
+    }
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(
-            text = "Dodaj igralce"
-        )
+    ) {
+        Text(text = "Dodaj igralce")
 
-        Spacer(
-            modifier = Modifier.height(32.dp)
-        )
+        //Spacer(modifier = Modifier.height(32.dp))
 
-        OutlinedTextField(
-            value = player1,
-            onValueChange = { player1 = it },
-            label = { Text(text = "Vnesi ime igralca") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
-        )
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        OutlinedTextField(
-            value = player2,
-            onValueChange = { player2 = it },
-            label = { Text(text = "Vnesi ime igralca") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
-        )
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        OutlinedTextField(
-            value = player3,
-            onValueChange = { player3 = it },
-            label = { Text(text = "Vnesi ime igralca") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
-        )
-
-        Spacer(
-            modifier = Modifier.height(32.dp)
-        )
-
-        Button(onClick = {navController.navigate(RemiCalculatorScreen.PlayGame.name)}) { // gre na screen ustvarjene igre
-            Text(
-                text = "Potrdi"
+        for (i in 0 until numberOfPlayers) {
+            OutlinedTextField(
+                value = playerNames.getOrElse(0) { "" },
+                onValueChange = { newName ->
+                    if (i < playerNames.size) {
+                        playerNames[i] = newName
+                    }
+                },
+                label = { Text("Vnesi ime igralca 1") },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
             )
+            /*OutlinedTextField(
+                value = playerNames[i],
+                onValueChange = { newName: String ->
+                    playerNames[i] = newName
+                },
+                label = { Text("Vnesi ime igralca ${i + 1}") },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
+            )*/
+
+            //Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        Spacer(
+            modifier = Modifier.height(32.dp)
+        )
+
+        Button(onClick = {
+            game?.let {
+                val updatedGame = it.copy(players = playerNames)
+                viewModel.updateGame(updatedGame)
+                navController.navigate("${RemiCalculatorScreen.PlayGame.name}/$gameId")
+            }
+        }) {
+            Text(text = "Potrdi")
         }
 
         Spacer(
