@@ -85,12 +85,28 @@ class RemiCalculatorViewModel @Inject constructor (private val gameRepository : 
                 numberOfPlayers = numberOfPlayers,
                 date = Date(),
                 players = List(numberOfPlayers) { "" },
-                scores = List(numberOfPlayers) { 0 }
+                scores = List(numberOfPlayers) { mutableListOf() }
             )
             Log.d("ViewModel", "Attempting to add game: $name")
             val gameId = gameRepository.insertGame(newGame)
             Log.d("ViewModel", "Game added with ID: $gameId")
             onGameAdded(gameId)
+        }
+    }
+
+    fun addRound(gameId: Long, newScores: List<Int>) {
+        viewModelScope.launch {
+            gameRepository.getGameById(gameId).collect { game ->
+                game?.let {
+                    // Update scores by appending to each player's list
+                    val updatedScores = it.scores.mapIndexed { index, playerScores ->
+                        playerScores + (newScores.getOrNull(index) ?: 0) // Append new score
+                    }
+                    val updatedGame = it.copy(scores = updatedScores)
+                    gameRepository.updateGame(updatedGame) // Save updated game
+                    Log.d("ViewModel", "Round added for game: ${updatedGame.name}")
+                }
+            }
         }
     }
 

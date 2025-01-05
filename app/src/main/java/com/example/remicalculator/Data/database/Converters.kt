@@ -6,6 +6,8 @@ import com.google.gson.reflect.TypeToken
 import java.util.Date
 
 class Converters {
+    private val gson = Gson()
+
     @TypeConverter
     fun fromStringToStringList(value: String): List<String> {
         val listType = object : TypeToken<List<String>>() {}.type
@@ -36,5 +38,16 @@ class Converters {
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
+    }
+
+    @TypeConverter
+    fun fromNestedIntList(value: List<List<Int>>): String {
+        return gson.toJson(value)
+    }
+
+    @TypeConverter
+    fun toNestedIntList(value: String): List<List<Int>> {
+        val type = object : TypeToken<List<List<Int>>>() {}.type
+        return gson.fromJson(value, type)
     }
 }

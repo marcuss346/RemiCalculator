@@ -13,5 +13,5 @@ data class Game(
     val numberOfPlayers: Int,
     val date: Date,
     val players: List<String>,
-    val scores: List<Int>
+    val scores: List<List<Int>>
 )

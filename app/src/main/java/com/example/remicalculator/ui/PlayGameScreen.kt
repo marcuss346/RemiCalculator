@@ -85,14 +85,4 @@ fun PlayGameScreen(
     ?: run { // loading message
             Text("Loading game data or game not found.")
     }
-
-    Spacer(
-        modifier = Modifier.height(32.dp)
-    )
-
-    Button(onClick = { navController.navigate(RemiCalculatorScreen.SavedGames.name) }) {
-        Text(
-            text = "Nazaj"
-        )
-    }
 }
