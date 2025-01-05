@@ -43,10 +43,19 @@ fun RemiCalcApp(
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             SavedGamesScreen(navController = navController, viewModel = viewModel)
         }
-        composable(route = "${RemiCalculatorScreen.PlayGame.name}/{gameId}") { backStackEntry ->
+        /*composable(route = "${RemiCalculatorScreen.PlayGame.name}/{gameId}") { backStackEntry ->
             val gameId = backStackEntry.arguments?.getLong("gameId") ?: return@composable
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             PlayGameScreen(navController = navController, gameId = gameId, viewModel = viewModel)
+        }*/
+        composable(
+            route = "${RemiCalculatorScreen.PlayGame.name}/{gameId}",
+            arguments = listOf(navArgument("gameId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            PlayGameScreen(
+                navController = navController,
+                gameId = backStackEntry.arguments?.getLong("gameId") ?: 0L
+            )
         }
         composable(route = RemiCalculatorScreen.NewGame.name) {
             val viewModel: RemiCalculatorViewModel = hiltViewModel()

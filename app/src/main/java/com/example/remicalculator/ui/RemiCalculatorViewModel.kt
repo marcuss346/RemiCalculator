@@ -3,10 +3,8 @@ package com.example.remicalculator.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.remicalculator.Data.GameRepository
 import com.example.remicalculator.Data.Translation
-import com.example.remicalculator.Data.dao.GameDao
 import com.example.remicalculator.Data.entities.Game
 import com.example.remicalculator.network.Api
 import dagger.hilt.android.lifecycle.HiltViewModel

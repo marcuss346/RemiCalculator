@@ -1,5 +1,6 @@
 package com.example.remicalculator.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -57,18 +58,41 @@ fun PlayGameScreen(
             }
         }
 
-        ?: run { // loading message
-            Text("Loading game data or game not found.")
+        Button(onClick = {}) {
+            Text(text = "Dodaj točke")
         }
 
-        Spacer(
-            modifier = Modifier.height(32.dp)
-        )
+        Spacer(modifier = Modifier.height(16.dp))
 
+        // Finish Game and Delete Game buttons as before
         Button(onClick = { navController.navigate(RemiCalculatorScreen.SavedGames.name) }) {
-            Text(
-                text = "Nazaj"
-            )
+            Text(text = "Nazaj")
         }
+
+        Button(onClick = {
+            Log.d("PlayGameScreen", "Finish game clicked for $gameId")
+        }) {
+            Text(text = "Končaj igro")
+        }
+
+        Button(onClick = {
+            Log.d("PlayGameScreen", "Game deleted")
+        }) {
+            Text(text = "Izbriši igro")
+        }
+    }
+
+    ?: run { // loading message
+            Text("Loading game data or game not found.")
+    }
+
+    Spacer(
+        modifier = Modifier.height(32.dp)
+    )
+
+    Button(onClick = { navController.navigate(RemiCalculatorScreen.SavedGames.name) }) {
+        Text(
+            text = "Nazaj"
+        )
     }
 }
