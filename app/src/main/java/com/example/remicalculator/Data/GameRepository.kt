@@ -31,4 +31,8 @@ class GameRepository(private val gameDao: GameDao) {
     suspend fun deleteAllGames() {
         gameDao.deleteAllGames()
     }
+
+    suspend fun deleteGame(gameId: Long) {
+        return gameDao.deleteGameById(gameId)
+    }
 }

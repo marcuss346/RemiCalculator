@@ -152,4 +152,15 @@ class RemiCalculatorViewModel @Inject constructor (private val gameRepository : 
         }
     }
 
+    fun deleteGame(gameId: Long) {
+        viewModelScope.launch {
+            try {
+                gameRepository.deleteGame(gameId)  // Call your repository to delete the game
+                Log.d("ViewModel", "Game with ID $gameId deleted successfully")
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Error deleting game: ${e.message}")
+            }
+        }
+    }
+
 }
