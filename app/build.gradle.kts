@@ -87,11 +87,6 @@ dependencies {
 
     implementation(libs.gson)
 
-    /*
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0")
-    */
-
     implementation (libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

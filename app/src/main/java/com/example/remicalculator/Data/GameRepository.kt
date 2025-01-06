@@ -23,7 +23,6 @@ class GameRepository(private val gameDao: GameDao) {
         return gameDao.getGameById(gameId)
     }
 
-    // (Optional) Get all games if needed in your app
     fun getAllGames(): Flow<List<Game>> {
         return gameDao.getAllGames()
     }

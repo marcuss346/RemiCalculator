@@ -24,10 +24,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.remicalculator.Data.entities.Game
 import com.example.remicalculator.RemiCalculatorScreen
 
 @Composable
@@ -95,11 +92,6 @@ fun NewGameScreen(
                         navController.navigate("${RemiCalculatorScreen.AddPlayers.name}/$gameId")
                     }
                 }
-                /*if (isValid) {
-                    //val game = Game(id = 0, name = game, numberOfPlayers = players, players = List(players) { "" })
-                    viewModel.addGame(game, players.toInt())
-                    navController.navigate(RemiCalculatorScreen.AddPlayers.name)
-                }*/
             }
         ) {
             Text(text = "Potrdi")

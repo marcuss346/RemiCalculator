@@ -27,7 +27,6 @@ enum class RemiCalculatorScreen {
 
 @Composable
 fun RemiCalcApp(
-    //viewModel: RemiCalculatorViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     gameId: Long
 ) {
@@ -43,11 +42,6 @@ fun RemiCalcApp(
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             SavedGamesScreen(navController = navController, viewModel = viewModel)
         }
-        /*composable(route = "${RemiCalculatorScreen.PlayGame.name}/{gameId}") { backStackEntry ->
-            val gameId = backStackEntry.arguments?.getLong("gameId") ?: return@composable
-            val viewModel: RemiCalculatorViewModel = hiltViewModel()
-            PlayGameScreen(navController = navController, gameId = gameId, viewModel = viewModel)
-        }*/
         composable(
             route = "${RemiCalculatorScreen.PlayGame.name}/{gameId}",
             arguments = listOf(navArgument("gameId") { type = NavType.LongType })
@@ -61,16 +55,6 @@ fun RemiCalcApp(
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
             NewGameScreen(navController = navController, viewModel = viewModel)
         }
-        /*composable(route = RemiCalculatorScreen.AddPlayers.name) {
-            Log.d("NewGameScreen", "Navigating to AddPlayers with gameId: $gameId") // izpis
-            val viewModel: RemiCalculatorViewModel = hiltViewModel()
-            AddPlayersScreen(navController = navController, viewModel = viewModel)
-        }*/
-        /*composable("${RemiCalculatorScreen.AddPlayers.name}/{gameId}") { backStackEntry ->
-            val gameId = backStackEntry.arguments?.getString("gameId")?.toLong() ?: 0L
-            val viewModel: RemiCalculatorViewModel = hiltViewModel()
-            AddPlayersScreen(navController, gameId, viewModel)
-        }*/
         composable(
             route = "${RemiCalculatorScreen.AddPlayers.name}/{gameId}",
             arguments = listOf(navArgument("gameId") { type = NavType.LongType })

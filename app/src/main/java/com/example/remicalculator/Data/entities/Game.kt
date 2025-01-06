@@ -2,7 +2,6 @@ package com.example.remicalculator.Data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 import java.util.Date
 
 @Entity(tableName = "games")

@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.remicalculator.RemiCalculatorScreen
 
@@ -31,9 +30,6 @@ fun AddPlayersScreen(
     viewModel: RemiCalculatorViewModel = hiltViewModel()
 
 ) {
-    // ime igre = game (od prej)
-    //val gameId = navController.previousBackStackEntry?.arguments?.getLong("gameId") ?: return
-
     val game by viewModel.getGameById(gameId).collectAsState(initial = null)
 
     Log.d("AddPlayersScreen", "Game ID: $gameId")
@@ -50,7 +46,6 @@ fun AddPlayersScreen(
         return
     }
 
-    // število igralcev od prej
     val numberOfPlayers = game!!.numberOfPlayers
     val playerNames = remember { mutableStateListOf(*Array(numberOfPlayers) { "" }) }
 
@@ -62,8 +57,6 @@ fun AddPlayersScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Dodaj igralce")
-
-        //Spacer(modifier = Modifier.height(32.dp))
 
         for (i in 0 until numberOfPlayers) {
             OutlinedTextField(
