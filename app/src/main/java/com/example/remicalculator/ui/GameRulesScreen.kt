@@ -1,20 +1,43 @@
 package com.example.remicalculator.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -26,6 +49,26 @@ fun GameRulesScreen(
     val scrollState = rememberScrollState()
     val uiState = viewModel.uiState.collectAsState().value
 
+    var mExpanded by remember { mutableStateOf(false) }
+
+    // Create a list of cities
+    val mCities = listOf("Slovenian", "English", "Croatian", "Italian", "German", "Spanish")
+
+    // Create a string value to store the selected city
+    var mSelectedText by remember { mutableStateOf(uiState.language) }
+
+    var mTextFieldSize by remember { mutableStateOf(Size.Zero)}
+
+    // Up Icon when expanded and down icon when collapsed
+    val icon = if (mExpanded)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+
+    //dropdown menu
+
+
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -34,9 +77,64 @@ fun GameRulesScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+
+        Spacer(
+            modifier = Modifier.height(64.dp)
+        )
+
         Text(
             text = "Pravila igre"
         )
+
+        Column(Modifier.padding(20.dp)) {
+
+            // Create an Outlined Text Field
+            // with icon and not expanded
+            OutlinedTextField(
+                value = mSelectedText,
+                onValueChange = { mSelectedText = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        // This value is used to assign to
+                        // the DropDown the same width
+                        mTextFieldSize = coordinates.size.toSize()
+                    },
+                label = { Text("Language") },
+                trailingIcon = {
+                    Icon(icon, "contentDescription",
+                        Modifier.clickable { mExpanded = !mExpanded })
+                }
+            )
+            DropdownMenu(
+                expanded = mExpanded,
+                onDismissRequest = { mExpanded = false },
+                modifier = Modifier
+                    .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
+            ) {
+                mCities.forEach { label ->
+                    DropdownMenuItem(
+                        onClick = {
+                            mSelectedText = label
+                            mExpanded = false
+                        },
+                        text = { Text(text = label) },
+                    )
+                }
+
+        }
+
+        }
+
+        Button(onClick = {
+            viewModel.updateTextLanguage(mSelectedText)
+        }) {
+            Text(
+                text = "Prevedi"
+            )
+        }
+
+
 
         Spacer(
             modifier = Modifier.height(32.dp)
@@ -49,42 +147,24 @@ fun GameRulesScreen(
         Spacer(
             modifier = Modifier.height(32.dp)
         )
+    }
 
-        /*Text(
-            text = "Torej k pravilom igre remi: vsak igralec ob štartu igre dobi določeno število " +
-                    "igralnih kart. Končni namen igre je čim prej odvreči vse svoje karte začenši z odprtjem " +
-                    "in/ali z dodajanjem kart po igralni mizi ali drugim igralcem ali na skupen kupček za odlaganje " +
-                    "igralnih kart. Odprtje pravzaprav pomeni: igralec se lahko odpre na dva načina - 1) sestaviti mora " +
-                    "barvno lestvico (to so minimalno tri zaporedne karte iste barve ali t. i. tris (na primer " +
-                    "tris kraljev KKK v križu, srcu in kari). Skupen znesek teh kart mora običajno znašati vsaj 51 " +
-                    "točk, če se igralec želi odpreti, to pravilo je še posebej v veljavi v Sloveniji. Točkovanje kart " +
-                    "gre po znanem vrstnem redu, pravila remija pravijo: številke na kartah so vredne toliko točk, kot " +
-                    "je vredna številka na karti, karte s podobami (Janez, Dama in Kralj) pa so vredne po 10 točk. As je " +
-                    "bodisi vreden eno točko, bodisi 10 ali 11 točk, odvisno od posamezne igralne igre. Kjer se iga z " +
-                    "jokerji, so le-ti vredni po 25 točk. Sleherni igralec lahko igralne karte bodisi dodaja v že " +
-                    "odprte karte drugih igralcev remija šele, ko je tudi sam odprt, prej ne. "
-        )*/
-
-        Spacer(
-            modifier = Modifier.height(32.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Button(onClick = {navController.navigateUp()},
+            modifier = Modifier
+                .padding(16.dp),
+            shape = RoundedCornerShape(0.dp),
+            contentPadding = PaddingValues(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
         )
-
-        Button(onClick = {navController.navigateUp()}) {
-            Text(
-                text = "Nazaj"
-            )
-        }
-
-        Spacer(
-            modifier = Modifier.height(10.dp)
-        )
-
-        Button(onClick = {
-            viewModel.updateTextLanguage()
-        }) {
-            Text(
-                text = "Prevedi"
-            )
+        {
+            Text(text = "<- Nazaj", textAlign = TextAlign.Left)
         }
     }
 }

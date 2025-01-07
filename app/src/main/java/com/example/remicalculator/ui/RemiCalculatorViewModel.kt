@@ -33,14 +33,31 @@ class RemiCalculatorViewModel @Inject constructor (private val gameRepository : 
         _uiState.value = RemiCalculatorUIState()
     }
 
-    fun updateTextLanguage(){
+    fun updateTextLanguage(languages: String){
         viewModelScope.launch {
             try {
-                val translation = Translation("auto", "en", _uiState.value.rulesSlovenian)
+                var translateTo: String
+                if(languages == "Slovenian"){
+                    translateTo = "sl"
+                }else if(languages == "English"){
+                    translateTo = "en"
+                }else if(languages== "German"){
+                    translateTo = "de"
+                }else if(languages == "Italian"){
+                    translateTo = "it"
+                }else if(languages == "Spanish"){
+                    translateTo = "es"
+                }else if (languages == "Croatian"){
+                    translateTo = "hr"
+                }else{
+                    translateTo = _uiState.value.languageCode
+                }
+
+                val translation = Translation(_uiState.value.languageCode, translateTo, _uiState.value.rulesSlovenian)
                 val newQuote = Api.retrofitService.getTranslation(translation)
                 _uiState.update {
                     currentState ->
-                    newQuote.body()?.let { currentState.copy(rulesSlovenian = it.trans) }!!
+                    newQuote.body()?.let { currentState.copy(rulesSlovenian = it.trans, languageCode = translateTo, language = languages) }!!
                 }
                 Log.i("API", "Quote retrieved successfully + $newQuote")
             } catch (e: IOException) {
