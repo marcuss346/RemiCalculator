@@ -30,5 +30,6 @@ data class RemiCalculatorUIState (
             " ni nič drugačna: turnir osvoji tisti, ki zbere bodisi največje število točk, bodisi tisti," +
             " ki ostane v igri vse do zadnjega. To so kratka pravila remija, osnovna pravila, ki ne" +
             " upoštevajo številnih variacij v različnih vrstah remija.",
-    val language: String = "Slovenian"
+    val language: String = "Slovenian",
+    val languageCode: String = "sl"
 )

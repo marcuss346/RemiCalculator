@@ -13,7 +13,4 @@ data class Translation (
 @Serializable
 data class TranslationResponse(
     val trans: String,
-    val source_language_code: String,
-    val source_language: String,
-    val trust_level: Int
 )
