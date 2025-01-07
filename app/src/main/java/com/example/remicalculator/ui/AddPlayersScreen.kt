@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -31,6 +33,7 @@ fun AddPlayersScreen(
 
 ) {
     val game by viewModel.getGameById(gameId).collectAsState(initial = null)
+    val scrollState = rememberScrollState()
 
     Log.d("AddPlayersScreen", "Game ID: $gameId")
     Log.d("AddPlayersScreen", "Fetched game: $game")
@@ -52,7 +55,8 @@ fun AddPlayersScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
