@@ -36,7 +36,8 @@ fun RemiCalcApp(
         startDestination = RemiCalculatorScreen.Home.name
     ) {
         composable(route = RemiCalculatorScreen.Home.name) {
-            HomeScreen(navController = navController)
+            val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            HomeScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = RemiCalculatorScreen.SavedGames.name) {
             val viewModel: RemiCalculatorViewModel = hiltViewModel()
