@@ -3,22 +3,31 @@ package com.example.remicalculator.ui
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,7 +45,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.remicalculator.RemiCalculatorScreen
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.text.style.TextAlign
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayGameScreen(
     navController: NavController,
@@ -55,23 +68,25 @@ fun PlayGameScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Spacer(modifier = Modifier.height(64.dp))
+
         game.value?.let { gameData ->
 
             Text(
-                text = "Game Name: ${gameData.name}",
-                style = MaterialTheme.typography.headlineMedium
+                text = "Ime igre: ${gameData.name}",
+                style = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.height(16.dp))
 
             gameData.players.forEachIndexed { playerIndex, playerName ->
 
-                Text(text = "-------------", style = MaterialTheme.typography.bodyMedium)
                 Text(text = playerName, style = MaterialTheme.typography.bodyLarge)
                 Text(text = "-------------", style = MaterialTheme.typography.bodyMedium)
 
                 gameData.scores.getOrNull(playerIndex)?.forEachIndexed { gameIndex, score ->
                     Text(
-                        text = "Game ${gameIndex + 1}: $score",
+                        text = "partija ${gameIndex + 1}: $score",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -79,10 +94,9 @@ fun PlayGameScreen(
                 val totalPoints = gameData.scores.getOrNull(playerIndex)?.sum() ?: 0
                 Text(text = "-------------", style = MaterialTheme.typography.bodyMedium)
                 Text(
-                    text = "Total Points: $totalPoints",
+                    text = "Skupne točke: $totalPoints",
                     style = MaterialTheme.typography.bodyLarge
                 )
-                Text(text = "-------------", style = MaterialTheme.typography.bodyMedium)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 var pointsToAdd by remember { mutableStateOf("") }
@@ -93,9 +107,9 @@ fun PlayGameScreen(
                     onValueChange = { newValue ->
                         pointsToAdd = newValue.filter { it.isDigit() || it == '-' }
                     },
-                    label = { Text("Enter Points") },
+                    label = { Text("Dodaj točke") },
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number,
+                        keyboardType = KeyboardType.Decimal,
                         imeAction = ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(
@@ -117,12 +131,8 @@ fun PlayGameScreen(
 
                     viewModel.updateGame(gameData.copy(scores = updatedScores))
                 }) {
-                    Text(text = "Add Points")
+                    Text(text = "Dodaj točke")
                 }
-            }
-
-            Button(onClick = { navController.navigate(RemiCalculatorScreen.SavedGames.name) }) {
-                Text(text = "Nazaj")
             }
 
             Spacer(modifier = Modifier.height(64.dp))
@@ -137,6 +147,25 @@ fun PlayGameScreen(
         } ?: run {
             // loading message
             Text("Loading game data or game not found.")
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Button(onClick = { navController.navigate(RemiCalculatorScreen.SavedGames.name) },
+            modifier = Modifier
+                .padding(16.dp),
+            shape = RoundedCornerShape(0.dp),
+            contentPadding = PaddingValues(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+        )
+        {
+            Text(text = "<- Nazaj", textAlign = TextAlign.Left)
         }
     }
 }
