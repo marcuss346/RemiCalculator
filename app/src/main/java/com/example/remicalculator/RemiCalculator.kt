@@ -2,6 +2,7 @@ package com.example.remicalculator
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -28,7 +29,8 @@ enum class RemiCalculatorScreen {
 @Composable
 fun RemiCalcApp(
     navController: NavHostController = rememberNavController(),
-    gameId: Long
+    gameId: Long,
+    viewModel: RemiCalculatorViewModel = hiltViewModel()
 ) {
 
     NavHost(
@@ -36,10 +38,10 @@ fun RemiCalcApp(
         startDestination = RemiCalculatorScreen.Home.name
     ) {
         composable(route = RemiCalculatorScreen.Home.name) {
-            HomeScreen(navController = navController)
+            //val viewModel: RemiCalculatorViewModel = hiltViewModel()
+            HomeScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = RemiCalculatorScreen.SavedGames.name) {
-            val viewModel: RemiCalculatorViewModel = hiltViewModel()
             SavedGamesScreen(navController = navController, viewModel = viewModel)
         }
         composable(
@@ -52,7 +54,6 @@ fun RemiCalcApp(
             )
         }
         composable(route = RemiCalculatorScreen.NewGame.name) {
-            val viewModel: RemiCalculatorViewModel = hiltViewModel()
             NewGameScreen(navController = navController, viewModel = viewModel)
         }
         composable(
@@ -63,7 +64,6 @@ fun RemiCalcApp(
             AddPlayersScreen(navController, gameId)
         }
         composable(route = RemiCalculatorScreen.GameRules.name) {
-            val viewModel: RemiCalculatorViewModel = hiltViewModel()
             GameRulesScreen(viewModel = viewModel, navController = navController)
         }
     }

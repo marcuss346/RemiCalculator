@@ -31,5 +31,6 @@ data class RemiCalculatorUIState (
             " ki ostane v igri vse do zadnjega. To so kratka pravila remija, osnovna pravila, ki ne" +
             " upoštevajo številnih variacij v različnih vrstah remija.",
     val language: String = "Slovenian",
-    val languageCode: String = "sl"
+    val languageCode: String = "sl",
+    val report: Boolean = false
 )

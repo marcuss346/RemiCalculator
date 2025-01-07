@@ -7,6 +7,7 @@ import com.example.remicalculator.Data.GameRepository
 import com.example.remicalculator.Data.Translation
 import com.example.remicalculator.Data.entities.Game
 import com.example.remicalculator.network.Api
+import com.example.remicalculator.ui.sensors.MeasurableSensor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,13 +21,32 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class RemiCalculatorViewModel @Inject constructor (private val gameRepository : GameRepository) : ViewModel() {
+class RemiCalculatorViewModel @Inject constructor (
+    private val gameRepository : GameRepository,
+    private val sensor: MeasurableSensor) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RemiCalculatorUIState())
     val uiState: StateFlow<RemiCalculatorUIState> = _uiState.asStateFlow()
 
     init {
         resetRemiCalc()
+        sensor.startListening()
+        sensor.setOnSensorValuesChangedListener { values ->
+            val lol = values[0]
+            if(lol < 5){
+                viewModelScope.launch {
+                    _uiState.update {
+                        currentState -> currentState.copy(report = true)
+                    }
+                }
+            }else{
+                viewModelScope.launch {
+                    _uiState.update {
+                            currentState -> currentState.copy(report = false)
+                    }
+                }
+            }
+        }
     }
 
     private fun resetRemiCalc() {
