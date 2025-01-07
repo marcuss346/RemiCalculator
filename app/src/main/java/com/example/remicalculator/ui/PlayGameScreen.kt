@@ -12,9 +12,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,9 +27,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -126,7 +131,7 @@ fun PlayGameScreen(
                 Log.d("PlayGameScreen", "Deleting game with ID: $gameId")
                 viewModel.deleteGame(gameId)
                 navController.navigate(RemiCalculatorScreen.SavedGames.name)
-            }) {
+            }, colors = ButtonDefaults.buttonColors(containerColor = Color.Red)) {
                 Text(text = "Izbriši igro")
             }
         } ?: run {
@@ -135,3 +140,25 @@ fun PlayGameScreen(
         }
     }
 }
+/*
+@Preview
+@Composable
+fun AlertDialogSample() {
+    val openDialog = remember { mutableStateOf(true) }
+
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                openDialog.value = false // lahko zbriševa če ne želiva da se zapre ko klikneš mimo
+            },
+            title = { Text(text = "Title") },
+            text = { Text(text = "Turned on by default") },
+            confirmButton = {
+                TextButton(onClick = { openDialog.value = false }) { Text("Potrdi") }
+            },
+            dismissButton = {
+                TextButton(onClick = { openDialog.value = false }) { Text("Zavrni") }
+            }
+        )
+    }
+}*/
