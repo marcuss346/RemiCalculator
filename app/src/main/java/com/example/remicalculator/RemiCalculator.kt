@@ -50,7 +50,8 @@ fun RemiCalcApp(
         ) { backStackEntry ->
             PlayGameScreen(
                 navController = navController,
-                gameId = backStackEntry.arguments?.getLong("gameId") ?: 0L
+                gameId = backStackEntry.arguments?.getLong("gameId") ?: 0L,
+                viewModel = viewModel
             )
         }
         composable(route = RemiCalculatorScreen.NewGame.name) {
@@ -61,7 +62,7 @@ fun RemiCalcApp(
             arguments = listOf(navArgument("gameId") { type = NavType.LongType })
         ) { backStackEntry ->
             val gameId = backStackEntry.arguments?.getLong("gameId") ?: 0L
-            AddPlayersScreen(navController, gameId)
+            AddPlayersScreen(navController, gameId, viewModel)
         }
         composable(route = RemiCalculatorScreen.GameRules.name) {
             GameRulesScreen(viewModel = viewModel, navController = navController)

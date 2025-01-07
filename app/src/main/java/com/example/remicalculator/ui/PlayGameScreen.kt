@@ -54,7 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 fun PlayGameScreen(
     navController: NavController,
     gameId: Long,
-    viewModel: RemiCalculatorViewModel = hiltViewModel()
+    viewModel: RemiCalculatorViewModel
 
 ) {
     val game = viewModel.getGameById(gameId).collectAsState(initial = null)

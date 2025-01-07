@@ -34,7 +34,7 @@ import com.example.remicalculator.RemiCalculatorScreen
 fun AddPlayersScreen(
     navController: NavController,
     gameId: Long,
-    viewModel: RemiCalculatorViewModel = hiltViewModel()
+    viewModel: RemiCalculatorViewModel
 
 ) {
     val game by viewModel.getGameById(gameId).collectAsState(initial = null)
